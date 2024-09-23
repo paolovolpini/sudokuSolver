@@ -1,2 +1,2 @@
 # sudokuSolver
-A C++ application that solves a sudoku
+A Python application that solves a given sudoku
