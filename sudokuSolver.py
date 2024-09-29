@@ -22,12 +22,31 @@ class SudokuSolver:
             for number in line:
                 print(number, end = " ")
             print()
-    
+   
     def solve(self):
+        def isValid(row, col, num):
+            for i in range(9):
+                # check if number is in same row or column or square
+                if(self.board[row][i] == num or self.board[i][col] == num or \
+                        self.board[row - row % 3 + i // 3][col - col % 3 + i % 3] == num):
+                    return False
+            return True
+
         numbers = [i for i in range(1,10)]
-        
         def backtrack():
-            pass
+            for i in range(9):
+                for j in range(9):
+                    if self.board[i][j] == 0:
+                        for num in numbers:
+                            if isValid(i,j,num):
+                                self.board[i][j] = num
+                                if(backtrack()):
+                                    return True
+                                self.board[i][j] = 0
+                        return False
+            return True
+        
+        backtrack()
 
 if __name__ == "__main__":
     if(len(sys.argv) != 2):
@@ -35,4 +54,6 @@ if __name__ == "__main__":
         sys.exit(1)
     solver = SudokuSolver()
     solver.initializeFromFile(sys.argv[1])
+    solver.solve()
     solver.printBoard()
+    
